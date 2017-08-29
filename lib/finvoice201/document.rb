@@ -22,7 +22,7 @@ module Finvoice201
     ### Finvoice mappings ###
 
     def add_finvoice
-      @content = Nokogiri::XML::Builder.new(encoding: "ISO-8859-15") do |root|
+      @content = Nokogiri::XML::Builder.new(encoding: "UTF-8") do |root|
         attributes = {
           "Version" => VERSION,
           "xmlns:xsi" => "http://www.w3.org/2001/XMLSchema-instance",
@@ -63,19 +63,7 @@ module Finvoice201
     end
 
     def add_message_transmission_details(parent)
-      parent.MessageTransmissionDetails do |context|
-        add_message_sender_details context
-
-        context.MessageReceiverDetails do |message_receiver_details|
-          message_receiver_details.ToIdentifier @invoice.dig(:to_identifier)
-          message_receiver_details.ToIntermediator @invoice.dig(:to_intermediator)
-        end
-
-        context.MessageDetails do |message_details|
-          message_details.MessageIdentifier "123"
-          message_details.MessageTimeStamp  Time.now.strftime("%FT%R")
-        end
-      end
+      false
     end
 
     def add_seller_party_details(finvoice)
@@ -157,16 +145,14 @@ module Finvoice201
 
     def add_invoice_details(finvoice)
       finvoice.InvoiceDetails do |invoice_details|
-        invoice_details.InvoiceTypeCode               "INV01"
+        invoice_details.InvoiceTypeCode               @invoice.dig(:invoice, :type_code)
         invoice_details.InvoiceTypeText               "Invoice"
         invoice_details.OriginCode                    "Original"
         invoice_details.InvoiceNumber                 @invoice.dig(:invoice, :number)
         invoice_details.InvoiceDate                   date(@invoice.dig :invoice, :date), "Format" => "CCYYMMDD"
-        #invoice_details.OrderIdentifier               ""
         invoice_details.InvoiceTotalVatExcludedAmount amount(@invoice.dig :invoice, :total_amount), currency_identifier
         invoice_details.InvoiceTotalVatAmount         amount(@invoice.dig :invoice, :total_tax_amount), currency_identifier
         invoice_details.InvoiceTotalVatIncludedAmount amount(@invoice.dig :invoice, :total_amount_with_tax), currency_identifier
-
         add_vat_specification_details                 invoice_details
         invoice_details.InvoiceFreeText               @invoice.dig(:invoice, :comment)
         add_payment_terms_details                     invoice_details
@@ -215,9 +201,9 @@ module Finvoice201
         end
         epi_details.EpiPaymentInstructionDetails do |epi_payment_instruction_details|
           epi_payment_instruction_details.EpiPaymentInstructionId     ""
-          epi_payment_instruction_details.EpiRemittanceInfoIdentifier @invoice.dig(:invoice, :reference_number), "IdentificationSchemeName" => "ISO"
+          epi_payment_instruction_details.EpiRemittanceInfoIdentifier @invoice.dig(:invoice, :reference_number), "IdentificationSchemeName" => "SPY"
           epi_payment_instruction_details.EpiInstructedAmount         amount(@invoice.dig :invoice, :total_amount_with_tax), currency_identifier
-          epi_payment_instruction_details.EpiCharge("ChargeOption" => "SLEV")
+          epi_payment_instruction_details.EpiCharge("ChargeOption" => "SHA")
           epi_payment_instruction_details.EpiDateOptionDate           date(@invoice.dig :invoice, :due_date), "Format" => "CCYYMMDD"
         end
       end
