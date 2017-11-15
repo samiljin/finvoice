@@ -33,6 +33,7 @@ module Finvoice201
           add_seller_party_details          finvoice
           add_seller_information_details    finvoice
           add_buyer_party_details           finvoice
+          add_invoice_recipient_details     finvoice
           add_invoice_details               finvoice
           add_payment_status_details        finvoice
           add_invoice_row                   finvoice
@@ -111,6 +112,10 @@ module Finvoice201
           buyer_postal_address_details.BuyerPostOfficeBoxIdentifier
         end
       end
+    end
+
+    def add_invoice_recipient_details(finvoice)
+      finvoice.InvoiceRecipientOrganisationUnitNumber @invoice.dig :recipient, :ovt
     end
 
     def add_vat_specification_details(invoice_details)
