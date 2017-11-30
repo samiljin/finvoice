@@ -29,17 +29,17 @@ module Finvoice201
           "xsi:noNamespaceSchemaLocation" => XSD_SCHEMA
         }
         root.Finvoice(attributes) do |finvoice|
-          add_message_transmission_details  finvoice
-          add_seller_party_details          finvoice
-          add_seller_information_details    finvoice
-          add_buyer_party_details           finvoice
-          add_invoice_recipient_details     finvoice
-          add_invoice_details               finvoice
-          add_payment_status_details        finvoice
-          add_invoice_row                   finvoice
-          add_epi_details                   finvoice
-          add_invoice_url_name_text         finvoice
-          add_invoice_url_text              finvoice
+          add_message_transmission_details     finvoice
+          add_seller_party_details             finvoice
+          add_seller_information_details       finvoice
+          add_buyer_party_details              finvoice
+          add_buyer_organisation_unit_number   finvoice
+          add_invoice_details                  finvoice
+          add_payment_status_details           finvoice
+          add_invoice_row                      finvoice
+          add_epi_details                      finvoice
+          add_invoice_url_name_text            finvoice
+          add_invoice_url_text                 finvoice
         end
       end
 
@@ -114,8 +114,8 @@ module Finvoice201
       end
     end
 
-    def add_invoice_recipient_details(finvoice)
-      finvoice.InvoiceRecipientOrganisationUnitNumber @invoice.dig :recipient, :ovt
+    def add_buyer_organisation_unit_number(finvoice)
+      finvoice.BuyerOrganisationUnitNumber @invoice.dig :buyer_organisation_unit_number, :ovt
     end
 
     def add_vat_specification_details(invoice_details)
