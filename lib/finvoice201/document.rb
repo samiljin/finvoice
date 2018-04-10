@@ -10,6 +10,7 @@ module Finvoice201
       @content ||= add_finvoice
       # clean empty tags
       @content.doc.traverse do |node|
+        next if node.name.downcase == "epicharge"
         node.remove if node.element? && node.text == ""
       end
       @content.to_xml
