@@ -4,7 +4,7 @@ Gem::Specification.new do |s|
   s.date        = '2016-02-25'
   s.summary     = "Finvoice 2.01"
   s.description = "Finvoice 2.01 xml generator"
-  s.authors     = ["Antti Jäppinen"]
+  s.authors     = ["Antti Jappinen"]
   s.email       = 'antti@devlab.fi'
   s.files       = ["lib/finvoice201.rb"]
   s.homepage    = 'https://github.com/devlab-oy/finvoice'
