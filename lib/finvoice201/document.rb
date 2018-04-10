@@ -8,6 +8,10 @@ module Finvoice201
 
     def to_xml
       @content ||= add_finvoice
+      # clean empty tags
+      @content.doc.traverse do |node|
+        node.remove if node.element? && node.text == ""
+      end
       @content.to_xml
     end
 
