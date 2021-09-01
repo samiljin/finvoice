@@ -77,8 +77,8 @@ module Finvoice201
         end
 
         context.MessageDetails do |message_details|
-          message_details.MessageIdentifier "123"
-          message_details.MessageTimeStamp  Time.now.strftime("%FT%R")
+          message_details.MessageIdentifier @invoice.dig(:message_identifier)
+          message_details.MessageTimeStamp  Time.now.strftime("%FT%R") if @invoice.dig(:message_identifier)
         end
       end
     end
