@@ -91,9 +91,13 @@ module Finvoice201
         #seller_party_details.SellerOrganisationDepartment ""
         seller_party_details.SellerOrganisationTaxCode    @invoice.dig :seller, :vat_number
         seller_party_details.SellerPostalAddressDetails do |seller_postal_address_details|
-          seller_postal_address_details.SellerStreetName             @invoice.dig :seller, :address
+          if @invoice.dig(:seller, :address).size > 35
+            seller_postal_address_details.SellerStreetName @invoice.dig(:seller, :address).scan(/.{35}/)
+          else
+            seller_postal_address_details.SellerStreetName @invoice.dig(:seller, :address)
+          end
           seller_postal_address_details.SellerTownName               @invoice.dig :seller, :city
-          seller_postal_address_details.SellerPostCodeIdentifier     @invoice.dig :seller, :zipcode
+          seller_postal_address_details.SellerPostCodeIdentifier      @invoice.dig :seller, :zipcode
           seller_postal_address_details.CountryCode                  @invoice.dig :seller, :country_code
           seller_postal_address_details.CountryName                  @invoice.dig :seller, :country
         end
@@ -120,9 +124,13 @@ module Finvoice201
         #buyer_party_details.BuyerOrganisationDepartment ""
         buyer_party_details.BuyerOrganisationTaxCode    @invoice.dig :buyer, :vat_number
         buyer_party_details.BuyerPostalAddressDetails do |buyer_postal_address_details|
-          buyer_postal_address_details.BuyerStreetName              @invoice.dig :buyer, :address
+          if @invoice.dig(:buyer, :address).size > 35
+            buyer_postal_address_details.BuyerStreetName @invoice.dig(:buyer, :address).scan(/.{35}/)
+          else
+            buyer_postal_address_details.BuyerStreetName @invoice.dig(:buyer, :address)
+          end
           buyer_postal_address_details.BuyerTownName                @invoice.dig :buyer, :city
-          buyer_postal_address_details.BuyerPostCodeIdentifier      @invoice.dig :buyer, :zipcode
+          buyer_postal_address_details.BuyerPostCodeIdentifier       @invoice.dig :buyer, :zipcode
           buyer_postal_address_details.CountryCode                  @invoice.dig :buyer, :country_code
           buyer_postal_address_details.CountryName                  @invoice.dig :buyer, :country
           buyer_postal_address_details.BuyerPostOfficeBoxIdentifier
