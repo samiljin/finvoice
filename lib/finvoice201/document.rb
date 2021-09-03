@@ -227,7 +227,7 @@ module Finvoice201
             epi_bfi_party_details.EpiBfiIdentifier @invoice.dig(:seller, :bic), "IdentificationSchemeName" => "BIC"
           end
           epi_party_details.EpiBeneficiaryPartyDetails do |epi_beneficiary_party_details|
-            epi_beneficiary_party_details.EpiNameAddressDetails Array(@invoice.dig(:seller, :name)).first
+            epi_beneficiary_party_details.EpiNameAddressDetails Array(@invoice.dig(:seller, :name)).first.to_s[0..35]
             epi_beneficiary_party_details.EpiBei                @invoice.dig(:seller, :bid)
             epi_beneficiary_party_details.EpiAccountID          @invoice.dig(:seller, :iban), "IdentificationSchemeName" => "IBAN"
           end
