@@ -195,6 +195,7 @@ module Finvoice201
     def add_payment_status_details(context)
       context.PaymentStatusDetails do |payment_status_details|
         payment_status_details.PaymentStatusCode "NOTPAID"
+        payment_status_details.PaymentMethodText @invoice.dig(:invoice, :payment_method)
       end
     end
 
