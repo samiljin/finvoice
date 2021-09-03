@@ -93,7 +93,7 @@ module Finvoice201
         #seller_party_details.SellerOrganisationDepartment ""
         seller_party_details.SellerOrganisationTaxCode    @invoice.dig :seller, :vat_number
         seller_party_details.SellerPostalAddressDetails do |seller_postal_address_details|
-          if @invoice.dig(:seller, :address).size > 35
+          if @invoice.dig(:seller, :address) && @invoice.dig(:seller, :address).size > 35
             @invoice.dig(:seller, :address).scan(/.{35}/).each do |str|
               seller_postal_address_details.SellerStreetName str
             end
@@ -128,7 +128,7 @@ module Finvoice201
         #buyer_party_details.BuyerOrganisationDepartment ""
         buyer_party_details.BuyerOrganisationTaxCode    @invoice.dig :buyer, :vat_number
         buyer_party_details.BuyerPostalAddressDetails do |buyer_postal_address_details|
-          if @invoice.dig(:buyer, :address).size > 35
+          if @invoice.dig(:buyer, :address) && @invoice.dig(:buyer, :address).size > 35
             @invoice.dig(:buyer, :address).scan(/.{35}/).each do |str|
               buyer_postal_address_details.BuyerStreetName str
             end
