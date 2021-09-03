@@ -12,8 +12,8 @@ class Finvoice201Test < Minitest::Test
 
   def test_validate_generated_finvoice201_xml
     finvoice = Finvoice201.build_from_hash(@invoice_hash)
-    assert finvoice.valid?
     assert_equal [], finvoice.errors
+    assert finvoice.valid?
   end
 
   def test_validate_example_finvoice

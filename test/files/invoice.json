@@ -2,6 +2,7 @@
   "from_identifier": "1234567890",
   "from_intermediator": "HELSFIHH",
   "to_identifier": "0987654321",
+  "message_identifier": "124355",
   "to_intermediator": "BANKFIHH",
   "invoice": {
     "number": "2013000018",
@@ -19,7 +20,7 @@
     "bid": "9876543-0",
     "vat_number": "FI98765430",
     "name": ["Pullin Musiikki oy", "Pullis Musik Ab"],
-    "address": "StreetName 99",
+    "address": "StreetName 99 with LONG sting address and multiple lines",
     "city": "Helsinki",
     "zipcode": "00100",
     "country_code": "FI",

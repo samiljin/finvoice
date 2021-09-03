@@ -1,4 +1,6 @@
 # lib/finvoice/document.rb
+require 'date'
+
 module Finvoice201
   class Document
     def initialize(invoice)
@@ -92,7 +94,9 @@ module Finvoice201
         seller_party_details.SellerOrganisationTaxCode    @invoice.dig :seller, :vat_number
         seller_party_details.SellerPostalAddressDetails do |seller_postal_address_details|
           if @invoice.dig(:seller, :address).size > 35
-            seller_postal_address_details.SellerStreetName @invoice.dig(:seller, :address).scan(/.{35}/)
+            @invoice.dig(:seller, :address).scan(/.{35}/).each do |str|
+              seller_postal_address_details.SellerStreetName str
+            end
           else
             seller_postal_address_details.SellerStreetName @invoice.dig(:seller, :address)
           end
@@ -125,7 +129,9 @@ module Finvoice201
         buyer_party_details.BuyerOrganisationTaxCode    @invoice.dig :buyer, :vat_number
         buyer_party_details.BuyerPostalAddressDetails do |buyer_postal_address_details|
           if @invoice.dig(:buyer, :address).size > 35
-            buyer_postal_address_details.BuyerStreetName @invoice.dig(:buyer, :address).scan(/.{35}/)
+            @invoice.dig(:buyer, :address).scan(/.{35}/).each do |str|
+              buyer_postal_address_details.BuyerStreetName str
+            end
           else
             buyer_postal_address_details.BuyerStreetName @invoice.dig(:buyer, :address)
           end
@@ -258,7 +264,7 @@ module Finvoice201
       end
 
       def date(date)
-        Date.parse(date).strftime('%Y%m%d')
+        ::Date.parse(date).strftime('%Y%m%d')
       end
 
       def amount(value)
