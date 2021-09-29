@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'finvoice201'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2016-02-25'
   s.summary     = "Finvoice 2.01"
   s.description = "Finvoice 2.01 xml generator"

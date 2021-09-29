@@ -39,6 +39,7 @@ module Finvoice201
           add_message_transmission_details  finvoice
           add_seller_party_details          finvoice
           add_seller_information_details    finvoice
+          add_recipient_details             finvoice
           add_buyer_party_details           finvoice
           add_invoice_details               finvoice
           add_payment_status_details        finvoice
@@ -258,18 +259,22 @@ module Finvoice201
       finvoice.doc.root.add_previous_sibling pi
     end
 
+    def add_recipient_details(context)
+      context.InvoiceRecipientLanguageCode @invoice.dig(:invoice, :language_code) unless @invoice.dig(:invoice, :language_code).nil?
+    end
+
     private
 
-      def currency_identifier
-        {"AmountCurrencyIdentifier" => "EUR"}
-      end
+    def currency_identifier
+      {"AmountCurrencyIdentifier" => "EUR"}
+    end
 
-      def date(date)
-        ::Date.parse(date).strftime('%Y%m%d')
-      end
+    def date(date)
+      ::Date.parse(date).strftime('%Y%m%d')
+    end
 
-      def amount(value)
-        sprintf("%.2f", value.to_f.round(2)).to_s.gsub('.', ',')
-      end
+    def amount(value)
+      sprintf("%.2f", value.to_f.round(2)).to_s.gsub('.', ',')
+    end
   end
 end
